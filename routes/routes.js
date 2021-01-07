@@ -10,6 +10,7 @@ router.get('/user/:id', UserController.findUser);
 router.post('/recoverpassword', UserController.recoverPassword);
 router.post('/user', UserController.create);
 router.post('/changepassword', UserController.changePassword);
+router.post('/login', UserController.login);
 router.put('/user', UserController.editUser);
 router.delete('/user/:id', UserController.delete);
 

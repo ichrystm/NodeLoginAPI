@@ -1,6 +1,10 @@
 var validator = require("email-validator");
 var User = require("../models/User");
 var PasswordToken = require("../models/PasswordToken");
+var bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
+
+var secret = 'dshuahdsauhdau';
 
 class UserController{
 
@@ -178,6 +182,32 @@ class UserController{
         message: "ok"
       });
     }
+  }
+
+  async login(req, res){
+    var {email, password} = req.body;
+
+    var user = await User.findUserByEmail(email);
+    if(user != undefined){
+      var result = await bcrypt.compare(password, user[0].password);
+      
+      if(result){
+        var token = jwt.sign({email: user.email, role: user.role}, secret)
+        res.status = 200;
+        res.send({
+          token: token
+        })
+      }else{
+        res.status = 406
+        res.send({
+          err: "Senha incorreta!"
+        })
+      }
+
+    }else{
+      res.send({status: false});
+    }
+
   }
 
 }
