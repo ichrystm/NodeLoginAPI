@@ -47,6 +47,25 @@ class UserController{
     }
   };
 
+  async editUser(req, res){
+
+    var {id, email, name, role} = req.body;
+    var result = await User.update(id, email, name, role);
+    if(result != undefined){
+      if(result.status == true){
+        res.status = 200;
+        res.send({message: "Tudo OK!"})
+      }else{
+        res.status = 406;
+        res.send({error: result.err})
+      }
+    }else{
+      res.status = 406;
+      res.send({error: "Ocorreu um erro no servidor!"})
+    }
+
+  }
+
   async create(req, res){
     var {email, name, password} = req.body;
     var isEmail = validator.validate(email);
