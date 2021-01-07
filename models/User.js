@@ -38,9 +38,23 @@ class User{
       }
     }
 
-    async findUser(id){
+    async findUserById(id){
       try{
         var result = await knex.select(["id", "name", "email", "role"]).from("users").where({id:id});
+        if(result.length > 0){
+          return result;
+        }else{
+          return undefined;
+        }
+      }catch(err){
+        console.log(err);
+        return [];
+      }
+    }
+
+    async findUserByEmail(email){
+      try{
+        var result = await knex.select(["id", "name", "email", "role"]).from("users").where({email: email});
         if(result.length > 0){
           return result;
         }else{

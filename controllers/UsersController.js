@@ -1,5 +1,6 @@
 var validator = require("email-validator");
 var User = require("../models/User");
+var PasswordToken = require("../models/PasswordToken");
 
 class UserController{
 
@@ -29,7 +30,7 @@ class UserController{
   async findUser(req, res){
     var id = req.params.id;
     try{
-      var result = await User.findUser(id);
+      var result = await User.findUserById(id);
       if(result == undefined){
         res.status = 200;
         res.json({
@@ -80,6 +81,24 @@ class UserController{
       res.status = 406;
       res.send({
         error: result.err
+      })
+    }
+
+  }
+
+  async recoverPassword(req, res){
+
+    var email = req.body.email;
+    var result = await PasswordToken.create(email);
+    if(result.status){
+      res.status = 200;
+      res.send({
+        token: result.token
+      })
+    }else{
+      res.status = 406;
+      res.send({
+        err: result.err
       })
     }
 
