@@ -1,4 +1,5 @@
 var validator = require("email-validator");
+var User = require("../models/User");
 
 class UserController{
 
@@ -34,7 +35,17 @@ class UserController{
         nome: nameError,
         senha: passwordError
       })
+      return;
     }else{
+      var emailExists = User.findEmail(email);
+      if(emailExists){
+        res.status = 406;
+        res.json({
+          Error: "O e-mail informado ja está cadastrado!"
+        });
+        return
+      }
+      await User.new(email, name, password);
       res.status = 200;
       res.send({
         message: "ok"
