@@ -28,6 +28,26 @@ class User{
         }
     }
 
+    async findAll(){
+      try{
+        var result = await knex.select(["id", "name", "email", "role"]).from("users");
+        return result;
+      }catch(err){
+        console.log(err);
+        return [];
+      }
+    }
+
+    async findUser(id){
+      try{
+        var result = await knex.select(["id", "name", "email", "role"]).from("users").where({id:id});
+        return result;
+      }catch(err){
+        console.log(err);
+        return [];
+      }
+    }
+
 }
 
 module.exports = new User();

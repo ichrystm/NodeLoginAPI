@@ -5,6 +5,48 @@ class UserController{
 
   async index(req, res){};
 
+  async findAllUsers(req, res){
+
+    try{
+      var results = await User.findAll();
+      if(results.length == 0){
+        res.status = 200
+        res.json({
+          Results: "Não existem usuários cadastrados!"
+        });
+        return;
+      }else{
+        res.status = 200;
+        res.json({results});
+      }
+    }catch(err){
+      console.log(err);
+      return;
+    }
+    
+  };
+
+  async findUser(req, res){
+    var id = req.params.id;
+    try{
+      var result = await User.findUser(id);
+      if(result.length == 0){
+        res.status = 200;
+        res.json({
+          Error: "Nenhum usuário encontrado com o id informado!"
+        });
+        return;
+      }else{
+        res.status = 200;
+        res.json(result);
+        return;
+      }
+    }catch(err){
+      console.log(err);
+      return;
+    }
+  };
+
   async create(req, res){
     var {email, name, password} = req.body;
     var isEmail = validator.validate(email);
@@ -37,7 +79,13 @@ class UserController{
       })
       return;
     }else{
-      var emailExists = User.findEmail(email);
+      try{
+        var emailExists = await User.findEmail(email);
+      }catch(err){
+        console.log(err);
+        return;
+      }
+      
       if(emailExists){
         res.status = 406;
         res.json({
