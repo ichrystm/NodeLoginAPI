@@ -192,7 +192,8 @@ class UserController{
       var result = await bcrypt.compare(password, user[0].password);
       
       if(result){
-        var token = jwt.sign({email: user.email, role: user.role}, secret)
+        var token = jwt.sign({email: user[0].email, role: user[0].role}, secret)
+        //console.log(user[0]);
         res.status = 200;
         res.send({
           token: token

@@ -5,7 +5,6 @@ class PasswordToken{
 
   async create(email){
     var user = await User.findUserByEmail(email);
-    //console.log(user[0].id);
     if(user != undefined){
       var token = Date.now();
       try{
