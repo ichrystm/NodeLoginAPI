@@ -66,6 +66,25 @@ class UserController{
 
   }
 
+  async delete(req, res){
+    var id = req.params.id;
+
+    var result = await User.delete(id);
+
+    if(result.status){
+      res.status = 200;
+      res.send({
+        message: "Usuário deletado!"
+      });
+    }else{
+      res.status = 406;
+      res.send({
+        error: result.err
+      })
+    }
+
+  }
+
   async create(req, res){
     var {email, name, password} = req.body;
     var isEmail = validator.validate(email);
