@@ -30,7 +30,7 @@ class UserController{
     var id = req.params.id;
     try{
       var result = await User.findUser(id);
-      if(result.length == 0){
+      if(result == undefined){
         res.status = 200;
         res.json({
           Error: "Nenhum usuário encontrado com o id informado!"

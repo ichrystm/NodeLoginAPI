@@ -41,7 +41,11 @@ class User{
     async findUser(id){
       try{
         var result = await knex.select(["id", "name", "email", "role"]).from("users").where({id:id});
-        return result;
+        if(result.length > 0){
+          return result;
+        }else{
+          return undefined;
+        }
       }catch(err){
         console.log(err);
         return [];
@@ -88,7 +92,8 @@ class User{
 
     async delete(id){
       var user = await this.findUser(id)
-      if(user != undefined){
+      console.log(user);
+      if(user.length != 0){
         try{
           await knex.delete().where({id: id}).table("users");
           return {status: true}
