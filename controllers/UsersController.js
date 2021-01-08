@@ -172,7 +172,7 @@ class UserController{
       if(emailExists){
         res.status(406);
         res.json({
-          Error: "O e-mail informado ja está cadastrado!"
+          error: "O e-mail informado ja está cadastrado!"
         });
         return
       }
@@ -186,9 +186,12 @@ class UserController{
 
   async login(req, res){
     var {email, password} = req.body;
+    var isEmail = validator.validate(email);
 
-    var user = await User.findUserByEmail(email);
-    if(user != undefined){
+    if(isEmail){
+
+      var user = await User.findUserByEmail(email);
+      if(user != undefined){
       var result = await bcrypt.compare(password, user[0].password);
       
       if(result){
@@ -200,12 +203,18 @@ class UserController{
       }else{
         res.status(406)
         res.send({
-          err: "Senha incorreta!"
+          error: "Senha incorreta!"
         })
       }
 
     }else{
-      res.send({status: false});
+      res.status(400)
+      res.send({status: false, error: "E-mail não cadastrado!"});
+    }
+
+    }else{
+      res.status(400);
+      res.send({status: false, error: "E-mail inválido!"});
     }
 
   }
