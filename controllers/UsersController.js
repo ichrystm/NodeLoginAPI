@@ -15,13 +15,13 @@ class UserController{
     try{
       var results = await User.findAll();
       if(results.length == 0){
-        res.status = 200
+        res.status(200)
         res.json({
           Results: "Não existem usuários cadastrados!"
         });
         return;
       }else{
-        res.status = 200;
+        res.status(200);
         res.json({results});
       }
     }catch(err){
@@ -36,13 +36,13 @@ class UserController{
     try{
       var result = await User.findUserById(id);
       if(result == undefined){
-        res.status = 200;
+        res.status(200);
         res.json({
           Error: "Nenhum usuário encontrado com o id informado!"
         });
         return;
       }else{
-        res.status = 200;
+        res.status(200);
         res.json(result);
         return;
       }
@@ -58,14 +58,14 @@ class UserController{
     var result = await User.update(id, email, name, role);
     if(result != undefined){
       if(result.status == true){
-        res.status = 200;
+        res.status(200);
         res.send({message: "Tudo OK!"})
       }else{
-        res.status = 406;
+        res.status(406);
         res.send({error: result.err})
       }
     }else{
-      res.status = 406;
+      res.status(406);
       res.send({error: "Ocorreu um erro no servidor!"})
     }
 
@@ -77,12 +77,12 @@ class UserController{
     var result = await User.delete(id);
 
     if(result.status){
-      res.status = 200;
+      res.status(200);
       res.send({
         message: "Usuário deletado!"
       });
     }else{
-      res.status = 406;
+      res.status(406);
       res.send({
         error: result.err
       })
@@ -95,12 +95,12 @@ class UserController{
     var email = req.body.email;
     var result = await PasswordToken.create(email);
     if(result.status){
-      res.status = 200;
+      res.status(200);
       res.send({
         token: result.token
       })
     }else{
-      res.status = 406;
+      res.status(406);
       res.send({
         err: result.err
       })
@@ -116,13 +116,13 @@ class UserController{
     if(isTokenValid.status){
 
       await User.changePassword(password, isTokenValid.user.user_id, isTokenValid.user.token);
-      res.status = 200;
+      res.status(200);
       res.send({
         message: "Senha alterada"
       });
 
     }else{
-      res.status = 406;
+      res.status(406);
       res.send({
         err: "Token inválido"
       })
@@ -153,8 +153,8 @@ class UserController{
       error = true;
     }
 
-    if(error){
-      res.status = 403;
+    if(error == true){
+      res.status(403);
       res.send({
         email: emailError,
         nome: nameError,
@@ -170,14 +170,14 @@ class UserController{
       }
       
       if(emailExists){
-        res.status = 406;
+        res.status(406);
         res.json({
           Error: "O e-mail informado ja está cadastrado!"
         });
         return
       }
       await User.new(email, name, password);
-      res.status = 200;
+      res.status(200);
       res.send({
         message: "ok"
       });
@@ -193,13 +193,12 @@ class UserController{
       
       if(result){
         var token = jwt.sign({email: user[0].email, role: user[0].role}, secret)
-        //console.log(user[0]);
-        res.status = 200;
+        res.status(200);
         res.send({
           token: token
         })
       }else{
-        res.status = 406
+        res.status(406)
         res.send({
           err: "Senha incorreta!"
         })

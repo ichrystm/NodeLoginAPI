@@ -8,7 +8,7 @@ router.get('/', HomeController.index);
 router.get('/user', AdminAuth, UserController.findAllUsers);
 router.get('/user/:id', AdminAuth, UserController.findUser);
 router.post('/recoverpassword', UserController.recoverPassword);
-router.post('/user', AdminAuth, UserController.create);
+router.post('/user', UserController.create);
 router.post('/changepassword', UserController.changePassword);
 router.post('/login', UserController.login);
 router.put('/user', AdminAuth, UserController.editUser);
