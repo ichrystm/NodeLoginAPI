@@ -36,13 +36,13 @@ class UserController{
     try{
       var result = await User.findUserById(id);
       if(result == undefined){
-        res.status(200);
+        res.status(406);
         res.json({
           Error: "Nenhum usuário encontrado com o id informado!"
         });
         return;
       }else{
-        res.status(200);
+        res.status(400);
         res.json(result);
         return;
       }
