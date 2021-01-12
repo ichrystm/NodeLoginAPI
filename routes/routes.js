@@ -11,6 +11,7 @@ router.post('/recoverpassword', UserController.recoverPassword);
 router.post('/user', UserController.create);
 router.post('/changepassword', UserController.changePassword);
 router.post('/login', UserController.login);
+router.post('/validade', AdminAuth, HomeController.validade)
 router.put('/user', AdminAuth, UserController.editUser);
 router.delete('/user/:id', AdminAuth, UserController.delete);
 

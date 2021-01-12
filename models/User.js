@@ -107,7 +107,7 @@ class User{
     }
 
     async delete(id){
-      var user = await this.findUser(id)
+      var user = await this.findUserById(id)
       console.log(user);
       if(user.length != 0){
         try{
