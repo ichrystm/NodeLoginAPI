@@ -42,7 +42,7 @@ class UserController{
         });
         return;
       }else{
-        res.status(400);
+        res.status(200);
         res.json(result);
         return;
       }
