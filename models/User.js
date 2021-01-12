@@ -70,7 +70,7 @@ class User{
 
     async update(id, email, name, role){
 
-      var user = await this.findUser(id);
+      var user = await this.findUserById(id);
 
       if(user != undefined){
 
